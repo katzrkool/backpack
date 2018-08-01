@@ -1,10 +1,10 @@
 function adjustBars(bar) {
     text = bar.innerText;
     grade = text.split(': ')[1];
-    const progressBar = bar.querySelector('.progress > div');
-    console.log(grade);
+    const progressBar = bar.querySelector('.progress > span');
+    const colorBar = progressBar.querySelector('span');
     progressBar.style.width = grade;
-    gradeNum = parseFloat(grade.replace('%', ''))
+    gradeNum = parseFloat(grade.replace('%', ''));
     let color;
     if (gradeNum > 90) {
         color = '#2fee00';
@@ -16,7 +16,7 @@ function adjustBars(bar) {
         color = '#ff0000'
     }
 
-    progressBar.style.backgroundColor = color;
+    colorBar.style.backgroundColor = color;
 
 }
 
