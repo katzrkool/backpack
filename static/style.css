@@ -5,6 +5,8 @@ body {
 #main {
     margin-left: 10%;
     margin-right: 10%;
+    display: flex;
+    flex-flow: row wrap;
 }
 
 .surround {
@@ -13,8 +15,10 @@ body {
     padding-bottom: 3%;
     background-color: white;
     margin-bottom: 1%;
+    margin-right: 10px;
     width: 47%;
-    display: inline-block;
+
+    align-content: center;
 }
 
 .grade {
@@ -55,6 +59,16 @@ body {
     100% { width: 100% }
 }
 
+.assignments {
+    text-align: center;
+    margin: auto;
+    margin-top: 2%;
+}
+
+th {
+    font-size: x-large;
+}
+
 @media screen and (max-width: 1000px) {
     .surround {
         width: 100%;
@@ -64,5 +78,11 @@ body {
         margin-right: 10%;
         margin-top: -10%;
         margin-bottom: 5%;
+    }
+}
+
+@media screen and (min-width: 1000px){
+    th {
+        padding: 0 20px;
     }
 }

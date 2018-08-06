@@ -1,7 +1,7 @@
 import dominate
 from dominate.tags import *
 
-def genHTML(classes, grades):
+def genHTML(data):
     doc = dominate.document('Grades')
 
     with doc.head:
@@ -9,12 +9,23 @@ def genHTML(classes, grades):
 
     with doc:
         with div(id='main'):
-            for i in range(0,len(classes)):
+            for i in data:
                 with span(_class='surround'):
-                    h1('{}: {}'.format(classes[i], grades[i]), _class='grade')
+                    h1('{}: {}'.format(i['class'], i['grade']), _class='grade')
                     with span(_class='progress'):
                         with span():
                             span()
+                    if len(i['assignments']) > 0:
+                        with table(_class='assignments'):
+                            with thead().add(tr()):
+                                th('Assignment')
+                                th('Score')
+                            with tbody():
+                                for x in i['assignments']:
+                                    with tr():
+                                        td(x)
+                                        td(i['assignments'][x])
+
         script(type='text/javascript', src='grades.js')
 
     return doc.render()

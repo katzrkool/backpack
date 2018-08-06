@@ -3,8 +3,6 @@ from scraper import Scraper
 from pretty import prettify
 from gen import genHTML
 
-
-
 app = Flask(__name__, static_url_path='/static')
 
 @app.route('/')
@@ -16,14 +14,14 @@ def grades():
     data = Scraper(request.form['username'], request.form['password']).scrape()
 
     gradeData = prettify(data)
-    return genHTML(gradeData['classes'], gradeData['grades'])
+    return genHTML(gradeData)
 
 @app.route('/test')
 def test():
     with open('test.html', 'r') as f:
         data = f.read()
     gradeData = prettify(data)
-    return genHTML(gradeData['classes'], gradeData['grades'])
+    return genHTML(gradeData)
 
 @app.route('/style.css')
 def style():
