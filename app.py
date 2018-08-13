@@ -32,4 +32,4 @@ def js():
     return app.send_static_file('grades.js')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
