@@ -6,7 +6,9 @@ function adjustBars(bar) {
     progressBar.style.width = grade;
     gradeNum = parseFloat(grade.replace('%', ''));
     let color;
-    if (gradeNum > 90) {
+    if (isNaN(gradeNum)) {
+        color = '#000000';
+    } else if (gradeNum > 90) {
         color = '#2fee00';
     } else if (gradeNum > 80) {
         color = '#f4db1d'

@@ -21,5 +21,5 @@ class Scraper:
             'cookie': "cookies=true; JSESSIONID={}".format(jsessionid),
             'accept': "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
         }
-        r = self.session.get("https://thenewschool.seniormbp.com/SeniorApps/studentParent/markingPeriodGrade.faces", headers=header)
+        r = self.session.get("https://thenewschool.seniormbp.com/SeniorApps/studentParent/academic/dailyAssignments/gradeBookGrades.faces", headers=header)
         return r.text
