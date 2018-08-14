@@ -5,16 +5,16 @@ from gen import genHTML
 
 app = Flask(__name__, static_url_path='/static')
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def login():
-    return app.send_static_file('login.html')
+    if request.method == 'GET':
+        return app.send_static_file('login.html')
+    elif request.method == 'POST':
+        data = Scraper(request.form['username'],
+                       request.form['password']).scrape()
 
-@app.route('/grades', methods=['POST'])
-def grades():
-    data = Scraper(request.form['username'], request.form['password']).scrape()
-
-    gradeData = prettify(data)
-    return genHTML(gradeData)
+        gradeData = prettify(data)
+        return genHTML(gradeData)
 
 @app.route('/test')
 def test():
