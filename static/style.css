@@ -69,7 +69,7 @@ th {
     font-size: x-large;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 500px) {
     .surround {
         width: 100%;
     }
@@ -81,7 +81,7 @@ th {
     }
 }
 
-@media screen and (min-width: 1000px){
+@media screen and (min-width: 500px){
     th {
         padding: 0 20px;
     }
