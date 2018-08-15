@@ -23,13 +23,5 @@ def test():
     gradeData = prettify(data)
     return genHTML(gradeData)
 
-@app.route('/style.css')
-def style():
-    return app.send_static_file('style.css')
-
-@app.route('/grades.js')
-def js():
-    return app.send_static_file('grades.js')
-
 if __name__ == '__main__':
     app.run()

@@ -22,6 +22,39 @@ function adjustBars(bar) {
 
 }
 
+function addArrow(box) {
+    if (box.querySelector('.assignments')) {
+        var arrow = document.createElement('img');
+        arrow.src = 'static/assets/down.svg';
+        arrow.classList.add('arrow');
+        arrow.onclick = function() { arrowTrigger(box); } ;
+        box.appendChild(arrow);
+    }
+}
+
+function arrowTrigger(box) {
+    var arrow = box.querySelector('.arrow');
+    if (arrow) {
+        if (arrow.src.endsWith('down.svg')) {
+            box.querySelector('.assignments').style.display = 'inherit';
+            arrow.src = 'static/assets/up.svg';
+        } else {
+            box.querySelector('.assignments').style.display = 'none';
+            arrow.src = 'static/assets/down.svg';
+        }
+    }
+}
+
+function arrowVisible() {
+    return Boolean(document.querySelector('.assignments'))
+}
+
 for (const i of document.getElementsByClassName('surround')){
     adjustBars(i);
+    addArrow(i);
+}
+
+if (arrowVisible()) {
+    var footer = document.querySelector('footer');
+    footer.style.display = 'inherit';
 }

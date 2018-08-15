@@ -1,11 +1,12 @@
 import dominate
 from dominate.tags import *
+from dominate.util import raw
 
 def genHTML(data):
     doc = dominate.document('Grades')
 
     with doc.head:
-        link(rel='stylesheet', href='style.css', type='text/css')
+        link(rel='stylesheet', href='static/style.css', type='text/css')
 
     with doc:
         with div(id='main'):
@@ -26,6 +27,7 @@ def genHTML(data):
                                         td(x)
                                         td(i['assignments'][x])
 
-        script(type='text/javascript', src='grades.js')
+        footer(raw('<p>Arrows made by <a href="https://fontawesome.com">Font Awesome</a>.\n<a href="https://fontawesome.com/license">License</a>. No changes to images were made.'))
+        script(type='text/javascript', src='static/grades.js')
 
     return doc.render()

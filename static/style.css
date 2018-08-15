@@ -17,7 +17,7 @@ body {
     margin-bottom: 1%;
     margin-right: 10px;
     width: 47%;
-
+    position: relative;
     align-content: center;
 }
 
@@ -25,6 +25,8 @@ body {
     font-family: sans-serif;
     font-size: 300%;
     text-align: center;
+    width: 80%;
+    padding-left: 10%;
 }
 
 .progress {
@@ -61,8 +63,10 @@ body {
 
 .assignments {
     text-align: center;
-    margin: auto;
+    margin-left: 25%;
+    margin-right: 25%;
     margin-top: 2%;
+    display: none;
 }
 
 th {
@@ -85,4 +89,21 @@ th {
     th {
         padding: 0 20px;
     }
+}
+
+.arrow {
+    width: 10%;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+
+footer {
+    display: none;
+    text-align: center;
+    background: white;
+    padding: 1%;
+    border-radius: 50px;
+    margin-right: 20%;
+    margin-left: 20%;
 }
