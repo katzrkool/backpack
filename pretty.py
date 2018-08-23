@@ -9,8 +9,8 @@ def prettify(webData):
         course = i.find(class_="dailyGradeCourseNameColumn").get_text().replace(' (S1,S2)', '')
         grade = re.sub(r'^\xa0$', 'N/A', i.find(class_="dailyGradeGroupColumn").get_text().split(": ")[1])
         assignmentNames = [x.get_text() for x in i.find_all(class_="dailyGradeAssignmentColumn")]
-        assignmentEarned = [x.get_text() for x in i.find_all(class_="dailyGradeScoreColumn")]
-        assignmentPossible = [x.get_text() for x in i.find_all(class_="dailyGradePossibleColumn")]
+        assignmentEarned = [formatGrade(x.get_text()) for x in i.find_all(class_="dailyGradeScoreColumn")]
+        assignmentPossible = [formatGrade(x.get_text()) for x in i.find_all(class_="dailyGradePossibleColumn")]
         assignmentScores = ['{}/{}'.format(assignmentEarned[i], assignmentPossible[i]) for i in range(0, len(assignmentPossible))]
         if grade == 'N/A' and len(assignmentNames) > 0:
             grade = genGrade(assignmentScores)
@@ -25,6 +25,12 @@ def prettify(webData):
         data.append(dataPoint)
     
     return data
+
+def formatGrade(grade: str):
+    if grade.endswith('.00'):
+        return grade.split('.')[0]
+    else:
+        return grade
 
 def genGrade(scores):
     convertedScores = {}
