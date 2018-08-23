@@ -8,18 +8,20 @@ class Scraper:
     def scrape(self):
         r = self.session.get('''https://thenewschool.seniormbp.com/SeniorApps/facelets/registration/loginCenter.xhtml?convid=82232''')
         jsessionid = r.cookies['JSESSIONID']
-        header = {
-            'cookie': "JSESSIONID={}".format(jsessionid),
-            'content-type': "application/x-www-form-urlencoded; charset=UTF-8"
+        self.session.header = {
+            'cookie': "cookies=true; JSESSIONID={}".format(jsessionid),
+            'content-type': "application/x-www-form-urlencoded"
         }
         payload = {'form:signIn':'form:signIn', 'form:userId':self.username, 'form:userPassword': self.password,
                    'AJAXREQUEST':'_viewRoot', 'AJAX:EVENTS_COUNT': '1', 'form':'form', 'javax.faces.ViewState': 'j_id1'}
 
-        self.session.post('''https://thenewschool.seniormbp.com/SeniorApps/facelets/registration/loginCenter.xhtml''', data=payload,
-                         headers=header)
-        header = {
-            'cookie': "cookies=true; JSESSIONID={}".format(jsessionid),
-            'accept': "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        self.session.post('''https://thenewschool.seniormbp.com/SeniorApps/facelets/registration/loginCenter.xhtml''', data=payload)
+        self.session.get('https://thenewschool.seniormbp.com/SeniorApps/studentParent/academic/dailyAssignments/gradeBookGrades.faces')
+        payload = {
+            'f': 'f', 'f:_idcl': 'f:inside:j_id_jsp_1774471256_10pc5',
+            'f:inside:UpcomingTab:AssignMPSel': '~~all~~',
+            'javax.faces.ViewState':'j_id2'
         }
-        r = self.session.get("https://thenewschool.seniormbp.com/SeniorApps/studentParent/academic/dailyAssignments/gradeBookGrades.faces", headers=header)
+        r = self.session.post("https://thenewschool.seniormbp.com/SeniorApps/studentParent/academic/dailyAssignments/gradeBookGrades.faces",
+                             data=payload)
         return r.text
