@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from scraper import Scraper
 from pretty import prettify
 from gen import genHTML
@@ -15,6 +15,16 @@ def login():
 
         gradeData = prettify(data)
         return genHTML(gradeData)
+
+@app.route('/json', methods=['GET', 'POST'])
+def json():
+    if request.method == 'GET':
+        return app.send_static_file('login.html')
+    elif request.method == 'POST':
+        data = Scraper(request.form['username'],
+                       request.form['password']).scrape()
+
+        return jsonify(prettify(data))
 
 @app.route('/test')
 def test():

@@ -8,7 +8,7 @@ def prettify(webData):
     for i in soup.find_all(class_="rich-panel-body"):
         course = i.find(class_="dailyGradeCourseNameColumn").get_text().replace(' (S1,S2)', '')
         grade = re.sub(r'^\xa0$', 'N/A', i.find(class_="dailyGradeGroupColumn").get_text().split(": ")[1])
-        assignmentNames = [x.get_text() for x in i.find_all(class_="dailyGradeAssignmentColumn")]
+        assignmentNames = [x.get_text().replace('\n', '') for x in i.find_all(class_="dailyGradeAssignmentColumn")]
         assignmentEarned = [formatGrade(x.get_text()) for x in i.find_all(class_="dailyGradeScoreColumn")]
         assignmentPossible = [formatGrade(x.get_text()) for x in i.find_all(class_="dailyGradePossibleColumn")]
         assignmentScores = ['{}/{}'.format(assignmentEarned[i], assignmentPossible[i]) for i in range(0, len(assignmentPossible))]
