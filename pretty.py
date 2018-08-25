@@ -33,6 +33,7 @@ def formatGrade(grade: str):
         return grade
 
 def genGrade(scores):
+    scores = [re.sub(r'^\xa0$', '', i) for i in scores]
     convertedScores = {}
     for i in scores:
         convertedScores[float(i.split('/')[0])] = float(i.split('/')[1])
