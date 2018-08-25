@@ -11,13 +11,19 @@ def prettify(webData):
         assignmentNames = [x.get_text().replace('\n', '') for x in i.find_all(class_="dailyGradeAssignmentColumn")]
         assignmentEarned = [formatGrade(x.get_text()) for x in i.find_all(class_="dailyGradeScoreColumn")]
         assignmentPossible = [formatGrade(x.get_text()) for x in i.find_all(class_="dailyGradePossibleColumn")]
-        assignmentScores = ['{}/{}'.format(assignmentEarned[i], assignmentPossible[i]) for i in range(0, len(assignmentPossible))]
-        if grade == 'N/A' and len(assignmentNames) > 0:
+        assignmentScores = ['{}/{}'.format(assignmentEarned[i], assignmentPossible[i]) for i in range(0, len(assignmentPossible)) if isFloat(assignmentEarned[i])]
+
+        if len(assignmentScores) == 0 and len(assignmentNames) > 0:
+            grade = 'N/A'
+        if grade == 'N/A' and len(assignmentScores) > 0:
             grade = genGrade(assignmentScores)
         dataPoint = {}
-        if len(assignmentNames) > 0:
+        if grade == 'N/A' and len(assignmentScores) > 0:
             dataPoint['analytics'] = {}
             dataPoint['analytics']['drop'] = dropAssignments(assignmentScores)
+
+        assignmentScores = [
+            '{}/{}'.format(re.sub(r'^\xa0$', '?? ', assignmentEarned[i]), assignmentPossible[i]) for i in range(0, len(assignmentPossible))]
         dataPoint.update({'class': course,
             'grade': grade,
             'assignments': {assignmentNames[x]: assignmentScores[x] for x in
@@ -26,6 +32,13 @@ def prettify(webData):
     
     return data
 
+def isFloat(num) -> bool:
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
+
 def formatGrade(grade: str):
     if grade.endswith('.00'):
         return grade.split('.')[0]
@@ -33,7 +46,6 @@ def formatGrade(grade: str):
         return grade
 
 def genGrade(scores):
-    scores = [re.sub(r'^\xa0$', '', i) for i in scores]
     convertedScores = {}
     for i in scores:
         convertedScores[float(i.split('/')[0])] = float(i.split('/')[1])
