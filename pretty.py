@@ -18,7 +18,7 @@ def prettify(webData):
         if grade == 'N/A' and len(assignmentScores) > 0:
             grade = genGrade(assignmentScores)
         dataPoint = {}
-        if grade == 'N/A' and len(assignmentScores) > 0:
+        if len(assignmentScores) > 0:
             dataPoint['analytics'] = {}
             dataPoint['analytics']['drop'] = dropAssignments(assignmentScores)
 
