@@ -73,16 +73,22 @@ def dropAssignments(scores):
     letterBottom = (int(average*10)/10)
     if letterBottom == 1.0:
         letterBottom = 0.9
-
+    elif letterBottom == 0.0:
+        return ''
     pointsLost = int((grade * (1 / letterBottom)) - total)
     assignmentsLost = round(pointsLost / avgAssignment, 2)
 
     return 'You can afford to lose {} points (an average of {} assignments) ' \
-           'before dropping to a {}'.format(pointsLost, assignmentsLost, letters[letterBottom])
+           'before dropping to {}'.format(pointsLost, assignmentsLost, letters[letterBottom])
 
 letters = {
-    0.9: 'B',
-    0.8: 'C',
-    0.7: 'D',
-    0.6: 'F'
+    0.9: 'a B',
+    0.8: 'a C',
+    0.7: 'a D',
+    0.6: 'an F',
+    0.5: 'below 50%',
+    0.4: 'below 40%',
+    0.3: 'below 30%',
+    0.2: 'below 20%',
+    0.1: 'below 10%',
 }
