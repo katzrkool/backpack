@@ -6,7 +6,7 @@ def prettify(webData):
 
     data = []
     for i in soup.find_all(class_="rich-panel-body"):
-        course = i.find(class_="dailyGradeCourseNameColumn").get_text().replace(' (S1,S2)', '')
+        course = re.sub(' \(S[1-2](|,S[1-2])\)', '', i.find(class_="dailyGradeCourseNameColumn").get_text())
         grade = re.sub(r'^\xa0$', 'N/A', i.find(class_="dailyGradeGroupColumn").get_text().split(": ")[1])
         assignmentNames = [x.get_text().replace('\n', '') for x in i.find_all(class_="dailyGradeAssignmentColumn")]
         assignmentEarned = [formatGrade(x.get_text()) for x in i.find_all(class_="dailyGradeScoreColumn")]
@@ -53,7 +53,7 @@ def genGrade(scores):
     grade = sum(convertedScores.keys())
     total = sum(convertedScores.values())
 
-    average = str((grade / total) * 100) + '%'
+    average = str(round((grade / total * 100), 2)) + '%'
 
     return average
 
@@ -79,13 +79,13 @@ def dropAssignments(scores):
     assignmentsLost = round(pointsLost / avgAssignment, 2)
 
     return 'You can afford to lose {} points (an average of {} assignments) ' \
-           'before dropping to {}'.format(pointsLost, assignmentsLost, letters[letterBottom])
+           'before dropping {}'.format(pointsLost, assignmentsLost, letters[letterBottom])
 
 letters = {
-    0.9: 'a B',
-    0.8: 'a C',
-    0.7: 'a D',
-    0.6: 'an F',
+    0.9: 'to a B',
+    0.8: 'to a C',
+    0.7: 'to a D',
+    0.6: 'to an F',
     0.5: 'below 50%',
     0.4: 'below 40%',
     0.3: 'below 30%',

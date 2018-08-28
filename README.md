@@ -1,10 +1,27 @@
 # MyBackpack Grade API/Site
 
-Basically, a flask server/requests api that hits the mybackpack server, and returns the data in an easier to understand way.
+This project is a Flask API/Scraper that takes a user's MyBackpack credentials, then display's their grades in a prettier interface
 
-Hopefully soon, I'll be able to get my hands on some real data, so I can build like a breakdown of every assignment score, instead of just averages.
+See an example below
 
-If you attempt to use it, you'll probably get an error, as it's summer, and no data is available yet, but if you use the /test endpoint, you can see an example
+![Example of grades](screenshots/example.png)
 
-### Installation
- `pip install -r requirements.txt`
+## Installation and Running
+To install, run 
+`pip -r requirements.txt`
+
+Then, for a development/test server you can just run `app.py`
+
+`python3 app.py`
+
+Navigate to `0.0.0.0:5000` and you should see the login page.
+
+Go to `0.0.0.0:5000/test`, and you will be able to test the parser and html generator without using real data
+
+Do not use the development/test server for deployment! See [Flask Docs](http://flask.pocoo.org/docs/1.0/deploying/) for more
+
+## Contributing/Issues
+
+If you have a suggestion or error, please report it in [the issues](https://github.com/katzrkool/mybackpack/issues)
+
+If you want to contribute, feel free to submit a pull request. I'd appreciate it!
