@@ -15,7 +15,7 @@ def prettify(webData):
 
         if len(assignmentScores) == 0 and len(assignmentNames) > 0:
             grade = 'N/A'
-        if grade == 'N/A' and len(assignmentScores) > 0:
+        elif len(assignmentScores) > 0:
             grade = genGrade(assignmentScores)
         dataPoint = {}
         if len(assignmentScores) > 0:
