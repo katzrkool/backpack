@@ -51,8 +51,10 @@ def formatGrade(grade: str):
 def genGrade(scores):
     convertedScores = []
     for i in scores:
-        if not i.split('/')[0].startswith('??'):
+        try:
             convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
+        except ValueError:
+            pass
 
     grade = sum([i[0] for i in convertedScores])
     total = sum([i[1] for i in convertedScores])
@@ -64,8 +66,10 @@ def genGrade(scores):
 def dropAssignments(scores):
     convertedScores = []
     for i in scores:
-        if not i.split('/')[0].startswith('??'):
+        try:
             convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
+        except ValueError:
+            pass
 
     keys = [i[0] for i in convertedScores]
     values = [i[1] for i in convertedScores]
