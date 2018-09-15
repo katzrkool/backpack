@@ -8,28 +8,31 @@ def prettify(webData):
     for i in soup.find_all(class_="rich-panel-body"):
         course = re.sub(' \(S[1-2](|,S[1-2])\)', '', i.find(class_="dailyGradeCourseNameColumn").get_text())
         grade = re.sub(r'^\xa0$', 'N/A', i.find(class_="dailyGradeGroupColumn").get_text().split(": ")[1])
-        assignmentNames = [x.get_text().replace('\n', '') for x in i.find_all(class_="dailyGradeAssignmentColumn")]
-        assignmentEarned = [formatGrade(x.get_text()) for x in i.find_all(class_="dailyGradeScoreColumn")]
-        assignmentPossible = [formatGrade(x.get_text()) for x in i.find_all(class_="dailyGradePossibleColumn")]
-        assignmentScores = ['{}/{}'.format(assignmentEarned[i], assignmentPossible[i]) for i in range(0, len(assignmentPossible)) if isFloat(assignmentEarned[i])]
+        assignments = []
+        for row in i.find_all(class_="rich-table-row"):
+            assignment = {
+                'name': row.find(class_="dailyGradeAssignmentColumn").get_text().replace('\n', ''),
+                'earned': formatGrade(row.find(class_="dailyGradeScoreColumn").get_text()),
+                'possible': formatGrade(row.find(class_="dailyGradePossibleColumn").get_text()),
+                'due': row.find(class_="dailyGradeDueDateColumn").get_text()
+            }
+            assignment['score'] = '{}/{}'.format(re.sub(r'^\xa0$', '?? ', assignment['earned']), assignment['possible'])
+            assignments.append(assignment)
 
-        if len(assignmentScores) == 0 and len(assignmentNames) > 0:
+        scores = [x['score'] for x in assignments]
+        if len(scores) == 0 and len(assignments) > 0:
             grade = 'N/A'
-        elif len(assignmentScores) > 0:
-            grade = genGrade(assignmentScores)
+        elif len(scores) > 0:
+            grade = genGrade(scores)
         dataPoint = {}
-        if len(assignmentScores) > 0:
+        if len(scores) > 0:
             dataPoint['analytics'] = {}
-            dataPoint['analytics']['drop'] = dropAssignments(assignmentScores)
+            dataPoint['analytics']['drop'] = dropAssignments(scores)
 
-        assignmentScores = [
-            '{}/{}'.format(re.sub(r'^\xa0$', '?? ', assignmentEarned[i]), assignmentPossible[i]) for i in range(0, len(assignmentPossible))]
         dataPoint.update({'class': course,
             'grade': grade,
-            'assignments': {assignmentNames[x]: assignmentScores[x] for x in
-             range(0, len(assignmentNames))}})
+            'assignments': assignments})
         data.append(dataPoint)
-    
     return data
 
 def isFloat(num) -> bool:
@@ -46,12 +49,13 @@ def formatGrade(grade: str):
         return grade
 
 def genGrade(scores):
-    convertedScores = {}
+    convertedScores = []
     for i in scores:
-        convertedScores[float(i.split('/')[0])] = float(i.split('/')[1])
+        if not i.split('/')[0].startswith('??'):
+            convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
 
-    grade = sum(convertedScores.keys())
-    total = sum(convertedScores.values())
+    grade = sum([i[0] for i in convertedScores])
+    total = sum([i[1] for i in convertedScores])
 
     average = str(round((grade / total * 100), 2)) + '%'
 
@@ -60,7 +64,8 @@ def genGrade(scores):
 def dropAssignments(scores):
     convertedScores = []
     for i in scores:
-        convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
+        if not i.split('/')[0].startswith('??'):
+            convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
 
     keys = [i[0] for i in convertedScores]
     values = [i[1] for i in convertedScores]

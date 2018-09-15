@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
-from scraper import Scraper
-from pretty import prettify
-from gen import genHTML
+from backpack.scraper import Scraper
+from backpack.pretty import prettify
+from backpack.gen import genHTML
+from os import path
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__, static_url_path='/static', static_folder='../static/')
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -14,7 +15,7 @@ def login():
                        request.form['password']).scrape()
 
         gradeData = prettify(data)
-        return genHTML(gradeData)
+        return genHTML(gradeData, request.url_root)
 
 @app.route('/json', methods=['GET', 'POST'])
 def json():
@@ -28,10 +29,10 @@ def json():
 
 @app.route('/test')
 def test():
-    with open('test.html', 'r') as f:
+    with open('{}/../resources/test.html'.format(path.dirname(path.realpath(__file__))), 'r') as f:
         data = f.read()
     gradeData = prettify(data)
-    return genHTML(gradeData)
+    return genHTML(gradeData, request.url_root)
 
 if __name__ == '__main__':
     app.run()
