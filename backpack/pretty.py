@@ -20,14 +20,20 @@ def prettify(webData):
             assignments.append(assignment)
 
         scores = [x['score'] for x in assignments]
-        if len(scores) == 0 and len(assignments) > 0:
+        convertedScores = []
+        for i in scores:
+            try:
+                convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
+            except ValueError:
+                pass
+        if len(convertedScores) == 0 and len(assignments) > 0:
             grade = 'N/A'
-        elif len(scores) > 0:
-            grade = genGrade(scores)
+        elif len(convertedScores) > 0:
+            grade = genGrade(convertedScores)
         dataPoint = {}
-        if len(scores) > 0:
+        if len(convertedScores) > 0:
             dataPoint['analytics'] = {}
-            dataPoint['analytics']['drop'] = dropAssignments(scores)
+            dataPoint['analytics']['drop'] = dropAssignments(convertedScores)
 
         dataPoint.update({'class': course,
             'grade': grade,
@@ -48,14 +54,7 @@ def formatGrade(grade: str):
     else:
         return grade
 
-def genGrade(scores):
-    convertedScores = []
-    for i in scores:
-        try:
-            convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
-        except ValueError:
-            pass
-
+def genGrade(convertedScores):
     grade = sum([i[0] for i in convertedScores])
     total = sum([i[1] for i in convertedScores])
 
@@ -63,13 +62,7 @@ def genGrade(scores):
 
     return average
 
-def dropAssignments(scores):
-    convertedScores = []
-    for i in scores:
-        try:
-            convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
-        except ValueError:
-            pass
+def dropAssignments(convertedScores):
 
     keys = [i[0] for i in convertedScores]
     values = [i[1] for i in convertedScores]
