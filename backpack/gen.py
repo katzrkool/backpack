@@ -31,7 +31,7 @@ def genHTML(data, urlRoot):
                                     for x in i['analytics']:
                                         td(i['analytics'][x], colspan=2)
 
-        footer(raw('<p>Arrows made by <a href="https://fontawesome.com">Font Awesome</a>.\n<a href="https://fontawesome.com/license">License</a>. No changes to images were made.'))
+        footer(raw('<p>Arrows made by <a href="https://fontawesome.com">Font Awesome</a>.\n<a href="https://fontawesome.com/license/free">License</a>. No changes to images were made.'))
         script(type='text/javascript', src='{}static/grades.js'.format(urlRoot))
 
     return doc.render()
