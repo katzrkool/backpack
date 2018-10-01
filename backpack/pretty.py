@@ -23,7 +23,10 @@ def prettify(webData):
         convertedScores = []
         for i in scores:
             try:
-                convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
+                if i.split('/')[0] in ['?? ', 'M']:
+                    convertedScores.append((0, float(i.split('/')[1])))
+                else:
+                    convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
             except ValueError:
                 pass
         if len(convertedScores) == 0 and len(assignments) > 0:
