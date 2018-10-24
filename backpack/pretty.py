@@ -18,25 +18,29 @@ def prettify(webData):
             }
             assignment['score'] = '{}/{}'.format(re.sub(r'^\xa0$', '?? ', assignment['earned']), assignment['possible'])
             assignments.append(assignment)
-
         scores = [x['score'] for x in assignments]
         convertedScores = []
+        missingAssignments = []
+
         for i in scores:
             try:
                 if i.split('/')[0] in ['?? ', 'M']:
-                    convertedScores.append((0, float(i.split('/')[1])))
+                    missingAssignments.append((0, float(i.split('/')[1])))
                 else:
                     convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
             except ValueError:
                 pass
+
         if len(convertedScores) == 0 and len(assignments) > 0:
             grade = 'N/A'
         elif len(convertedScores) > 0:
-            grade = genGrade(convertedScores)
+            grade = genGrade(convertedScores + missingAssignments)
+
         dataPoint = {}
         if len(convertedScores) > 0:
             dataPoint['analytics'] = {}
             dataPoint['analytics']['drop'] = dropAssignments(convertedScores)
+            dataPoint['analytics']['gradeSansMissing'] = genSansMissing(convertedScores)
 
         dataPoint.update({'class': course,
             'grade': grade,
@@ -56,6 +60,9 @@ def formatGrade(grade: str):
         return grade.split('.')[0]
     else:
         return grade
+
+def genSansMissing(convertedScores):
+    return 'Not counting missing assignments, you have a {}'.format(genGrade(convertedScores))
 
 def genGrade(convertedScores):
     grade = sum([i[0] for i in convertedScores])

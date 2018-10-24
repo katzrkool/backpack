@@ -26,10 +26,11 @@ def genHTML(data, urlRoot):
                                     with tr():
                                         td(x['name'])
                                         td(x['score'])
-                            with tfoot().add(tr(colspan=2)):
+                            with tfoot():
                                 if 'analytics' in i:
                                     for x in i['analytics']:
-                                        td(i['analytics'][x], colspan=2)
+                                        with tr(colspan=2):
+                                            td(i['analytics'][x], colspan=2, _class=x)
 
         footer(raw('<p>Arrows made by <a href="https://fontawesome.com">Font Awesome</a>.\n<a href="https://fontawesome.com/license/free">License</a>. No changes to images were made.'))
         script(type='text/javascript', src='{}static/grades.js'.format(urlRoot))

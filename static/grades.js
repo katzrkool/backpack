@@ -45,6 +45,16 @@ function arrowTrigger(box) {
     }
 }
 
+function hideMissingBlurb(box) {
+    text = box.innerText;
+    grade = text.split(': ')[1];
+    missingBox = box.querySelector('.gradeSansMissing');
+    gradeSansMissing = missingBox.innerText.split('you have a ')[1];
+    if (gradeSansMissing === grade) {
+        missingBox.style.display = 'none';
+    }
+}
+
 function arrowVisible() {
     return Boolean(document.querySelector('.assignments'))
 }
@@ -52,6 +62,7 @@ function arrowVisible() {
 for (const i of document.getElementsByClassName('surround')){
     adjustBars(i);
     addArrow(i);
+    hideMissingBlurb(i);
 }
 
 if (arrowVisible()) {

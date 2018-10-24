@@ -35,7 +35,8 @@ Returns grade data in JSON format
 [
 	{
 		"analytics": {
-			"drop": "You can afford to lose 1 points (an average of 0.06 assignments) before dropping to a B"
+			"drop": "You can afford to lose 1 points (an average of 0.06 assignments) before dropping to a B",
+			"gradeSansMissing":"Not counting missing assignments, you have a 100%"
 		},
 		"assignments": [
 			{
