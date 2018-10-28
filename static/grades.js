@@ -8,11 +8,11 @@ function adjustBars(bar) {
     let color;
     if (isNaN(gradeNum)) {
         color = '#000000';
-    } else if (gradeNum >= 90) {
+    } else if (gradeNum >= 89.5) {
         color = '#2fee00';
-    } else if (gradeNum >= 80) {
-        color = '#f4db1d'
-    } else if (gradeNum >= 70) {
+    } else if (gradeNum >= 79.5) {
+        color = '#cbff53'
+    } else if (gradeNum >= 69.5) {
         color = '#f4971d'
     } else {
         color = '#ff0000'

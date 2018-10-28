@@ -39,7 +39,7 @@ def prettify(webData):
         dataPoint = {}
         if len(convertedScores) > 0:
             dataPoint['analytics'] = {}
-            dataPoint['analytics']['drop'] = dropAssignments(convertedScores)
+            dataPoint['analytics']['drop'] = dropAssignments(convertedScores + missingAssignments)
             dataPoint['analytics']['gradeSansMissing'] = genSansMissing(convertedScores)
 
         dataPoint.update({'class': course,
@@ -82,11 +82,12 @@ def dropAssignments(convertedScores):
 
     average = (grade/total)
     avgAssignment = total / len(values)
-    letterBottom = (int(average*10)/10)
-    if letterBottom == 1.0:
+    letterBottom = (int((average+0.005)*10)/10)
+    if letterBottom >= 1.0:
         letterBottom = 0.9
     elif letterBottom == 0.0:
         return ''
+    letterBottom -= 0.005
     pointsLost = int((grade * (1 / letterBottom)) - total)
     assignmentsLost = round(pointsLost / avgAssignment, 2)
 
@@ -94,13 +95,13 @@ def dropAssignments(convertedScores):
            'before dropping {}'.format(pointsLost, assignmentsLost, letters[letterBottom])
 
 letters = {
-    0.9: 'to a B',
-    0.8: 'to a C',
-    0.7: 'to a D',
-    0.6: 'to an F',
-    0.5: 'below 50%',
-    0.4: 'below 40%',
-    0.3: 'below 30%',
-    0.2: 'below 20%',
-    0.1: 'below 10%',
+    0.895: 'to a B',
+    0.795: 'to a C',
+    0.695: 'to a D',
+    0.595: 'to an F',
+    0.495: 'below 50%',
+    0.395: 'below 40%',
+    0.295: 'below 30%',
+    0.195: 'below 20%',
+    0.095: 'below 10%',
 }
