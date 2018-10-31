@@ -7,7 +7,8 @@ def prettify(webData):
     data = []
     for i in soup.find_all(class_="rich-panel-body"):
         course = re.sub(' \(S[1-2](|,S[1-2])\)', '', i.find(class_="dailyGradeCourseNameColumn").get_text())
-        grade = re.sub(r'^\xa0$', 'N/A', i.find(class_="dailyGradeGroupColumn").get_text().split(": ")[1])
+        grade = re.sub(r'^\xa0$', 'N/A', i.find(class_="dailyGradeGroupColumn").get_text().split(": ")[1]) + '%'
+        grade = re.sub(r'[a-zA-Z] ', '', grade)
         assignments = []
         for row in i.find_all(class_="rich-table-row"):
             assignment = {
@@ -30,11 +31,6 @@ def prettify(webData):
                     convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
             except ValueError:
                 pass
-
-        if len(convertedScores) == 0 and len(assignments) > 0:
-            grade = 'N/A'
-        elif len(convertedScores) > 0:
-            grade = genGrade(convertedScores)
 
         dataPoint = {}
         if len(convertedScores) > 0:

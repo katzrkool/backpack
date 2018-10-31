@@ -23,6 +23,8 @@ Instead of the confusing myBackpack website, this project provides a nice, simpl
 
 It also displays all assignments and their respective scores, and lets the user know how many points they can afford to lose before dropping to the next letter grade.
 
+If the class is weighted, the "analytics" aren't valid. See the FAQ for more info
+
 There's also an FAQ at /faq
 
 ## API Endpoints
