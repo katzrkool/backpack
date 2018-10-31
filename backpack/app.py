@@ -27,6 +27,10 @@ def json():
 
         return jsonify(prettify(data))
 
+@app.route('/faq')
+def faq():
+    return app.send_static_file('faq.html')
+
 @app.route('/test')
 def test():
     with open('{}/../resources/test.html'.format(path.dirname(path.realpath(__file__))), 'r') as f:

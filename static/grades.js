@@ -1,10 +1,10 @@
 function adjustBars(bar) {
-    text = bar.innerText;
-    grade = text.split(': ')[1];
+    const text = bar.innerText;
+    const grade = text.split(': ')[1];
     const progressBar = bar.querySelector('.progress > span');
     const colorBar = progressBar.querySelector('span');
     progressBar.style.width = grade;
-    gradeNum = parseFloat(grade.replace('%', ''));
+    const gradeNum = parseFloat(grade.replace('%', ''));
     let color;
     if (isNaN(gradeNum)) {
         color = '#000000';
@@ -23,8 +23,9 @@ function adjustBars(bar) {
 }
 
 function addArrow(box) {
+    console.log(box.querySelector('.assignments'))
     if (box.querySelector('.assignments')) {
-        var arrow = document.createElement('img');
+        const arrow = document.createElement('img');
         arrow.src = 'static/assets/down.svg';
         arrow.classList.add('arrow');
         arrow.onclick = function() { arrowTrigger(box); } ;
@@ -33,7 +34,7 @@ function addArrow(box) {
 }
 
 function arrowTrigger(box) {
-    var arrow = box.querySelector('.arrow');
+    const arrow = box.querySelector('.arrow');
     if (arrow) {
         if (arrow.src.endsWith('down.svg')) {
             box.querySelector('.assignments').style.display = 'inherit';
@@ -46,12 +47,14 @@ function arrowTrigger(box) {
 }
 
 function hideMissingBlurb(box) {
-    text = box.innerText;
-    grade = text.split(': ')[1];
-    missingBox = box.querySelector('.gradeSansMissing');
-    gradeSansMissing = missingBox.innerText.split('you have a ')[1];
-    if (gradeSansMissing === grade) {
-        missingBox.style.display = 'none';
+    const text = box.innerText;
+    const grade = text.split(': ')[1];
+    const missingBox = box.querySelector('.gradeWithMissing');
+    if (missingBox) {
+        const gradeWithMissing = missingBox.innerText.split('you have a ')[1];
+        if (gradeWithMissing === grade) {
+            missingBox.style.display = 'none';
+        }
     }
 }
 
@@ -66,6 +69,6 @@ for (const i of document.getElementsByClassName('surround')){
 }
 
 if (arrowVisible()) {
-    var footer = document.querySelector('footer');
+    const footer = document.querySelector('footer');
     footer.style.display = 'inherit';
 }

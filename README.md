@@ -23,6 +23,8 @@ Instead of the confusing myBackpack website, this project provides a nice, simpl
 
 It also displays all assignments and their respective scores, and lets the user know how many points they can afford to lose before dropping to the next letter grade.
 
+There's also an FAQ at /faq
+
 ## API Endpoints
 
 #### `json` (POST)
@@ -36,7 +38,7 @@ Returns grade data in JSON format
 	{
 		"analytics": {
 			"drop": "You can afford to lose 1 points (an average of 0.06 assignments) before dropping to a B",
-			"gradeSansMissing":"Not counting missing assignments, you have a 100%"
+			"gradeWithMissing":"Counting missing assignments, you have a 100%"
 		},
 		"assignments": [
 			{

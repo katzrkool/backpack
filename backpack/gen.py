@@ -32,7 +32,7 @@ def genHTML(data, urlRoot):
                                         with tr(colspan=2):
                                             td(i['analytics'][x], colspan=2, _class=x)
 
-        footer(raw('<p>Arrows made by <a href="https://fontawesome.com">Font Awesome</a>.\n<a href="https://fontawesome.com/license/free">License</a>. No changes to images were made.'))
+        footer(raw('<p>Arrows made by <a href="https://fontawesome.com">Font Awesome</a>.\n<a href="https://fontawesome.com/license/free">License</a>. No changes to images were made. <a href="faq">Information/FAQ</a>'))
         script(type='text/javascript', src='{}static/grades.js'.format(urlRoot))
 
     return doc.render()

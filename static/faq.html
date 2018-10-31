@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grade Checker FAQ</title>
+</head>
+<body style="background-color: #c4c4c4; margin: 0 10%">
+<main style="border-radius: 50px; background-color: white; text-align: center; font-family: sans-serif; padding: 1% 2%; line-height: 1.5;">
+    <h1>Frequently Asked Questions</h1>
+    <hr>
+    <h2>What is this?</h2>
+    <p>This service is a convenient alternative to myBackpack that allows New School students to check their grades more easily, and get more information about their classes.</p>
+
+    <h2>How does it work?</h2>
+    <p>Once you enter your credentials on the <a href="../">Login Page</a>, the service goes to myBackpack and asks politely for your grades. MyBackpack, thinking it's you, hands them over, and the
+    service then goes to process them. It totals up your assignments and formats it in a way pleasing to the eye. It then sends you the result!<br><br><strong>TLDR: It gets your grades normally and formats them prettily.</strong></p>
+
+    <h2>Wait, are you stealing my data?</h2>
+    <p><strong>NO!</strong> The service don't store any personal data! I couldn't see your grades or credentials even if I wanted to. If you don't believe me, the code is available on <a href="https://github.com/katzrkool/backpack">Github</a> for you to personally inspect.
+    <br>The only thing stored is your IP, user agent, links visited, and time. While that may sound spooky, I can't personally identify you through that info, and you're sending that information to every site you visit anyways.</p>
+
+    <h2>Why should I use your thing instead myBackpack? Isn't their system the official copy?</h2>
+    <p>Have you ever looked at myBackpack? All jokes aside, myBackpack can be really hard to understand, and, confusing to navigate. "My thing" is as simple can be. Type in credentials, get grades. Plus, this service provides some nifty information myBackpack doesn't provide, like how your grade is doing including missing assignments, or how many points you can lose before dropping a letter.
+    <br>Technically, myBackpack may have some weird anomaly that presents the wrong grade (half the reason this service exists), which could go on your report card, but by the end of the quarter/semester, it's usually worked out. It may be best to check myBackpack everyonce in a while just to double check.</p>
+
+    <h2>What's this "you can afford to lose this many points before dropping a letter grade?"</h2>
+    <p>When calculating your totals, the service looks at your assignments and calculates how many points you can lose, before dropping to the next letter grade down. For example, lets say I have an A, and I can afford to lose 20 points before hitting a B. In that class, if I'm assigned a 15 point assignment, I could technically not do it and still have an A. Of course, if you do drop a letter grade because of some anomaly, or the data changes and you skip an assignment based on previous data, or anything like that, don't come after me, I'm not responsible. </p>
+
+    <h2>Hey, your thing is missing assignments</h2>
+    <p>That's not a question, but unfortunately, when the service goes to get your grades, myBackpack only gives back grades from whatever mode you had it in last. For example, last time you were in myBackpack, if you changed it to "show me quarter 1 grades", it will show my thing quarter 1 grades, despite my thing asking it specifically for all grades.<br>Easiest way to fix it is to log into myBackpack, go to Daily Assignments, click the graded tab, and change the bar at the top that says "x of 11 marking periods selected" to All. Make sure it refreshes correctly, and that all your grades are there, and the service should work properly again.</p>
+
+    <h2>How do you deal with missing assignments?</h2>
+    <p>So, myBackpack doesn't total them into your grade total, so I don't either. But, below the list of assignments, you'll see a little blurb about what your grade would be if the missing assignments counted, if you have any.</p>
+
+    <h2>Does this show the most recent quarter or all time?</h2>
+    <p>Currently, it shows all time grades, since, last I heard, grades are being totalled by semester this year. If I'm wrong, please email me at <a href="mailto:admin@katzrkool.xyz">admin@katzrkool.xyz</a></p>
+
+    <h2>What happens when Semester 2 rolls around? Will it still show all time grades?</h2>
+    <p>That's more of a last minute during Winter Break problem. But don't you worry, I bet I'll have a super clever idea thought up. If you have a super clever idea for that, email me or suggest it on <a href="https://github.com/katzrkool/backpack/issues">Github</a></p>
+
+    <h2>Your thing is broken</h2>
+    <p>Feel free to email me at <a href="mailto:admin@katzrkool.xyz">admin@katzrkool.xyz</a> or create an issue on <a href="https://github.com/katzrkool/backpack/issues">Github</a>. I'll investigate the error pretty speedily, and fix it. But remember, I'm not being paid for this, so don't get grumpy if it takes a bit. </p>
+
+    <h2>I have an idea/suggestion or I want to contribute!</h2>
+    <p>Lovely! We need more people like you in this world. You can email me at <a href="mailto:admin@katzrkool.xyz">admin@katzrkool.xyz</a>, create an issue on <a href="https://github.com/katzrkool/backpack/issues">Github</a>, or <a href="https://github.com/katzrkool/backpack/pulls">submit a pull request</a>.</p>
+</main>
+</body>
+</html>
