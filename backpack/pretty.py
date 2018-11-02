@@ -36,7 +36,6 @@ def prettify(webData):
         if len(convertedScores) > 0:
             dataPoint['analytics'] = {}
             dataPoint['analytics']['drop'] = dropAssignments(convertedScores)
-            dataPoint['analytics']['gradeWithMissing'] = genWithMissing(convertedScores + missingAssignments)
 
         dataPoint.update({'class': course,
             'grade': grade,
@@ -56,9 +55,6 @@ def formatGrade(grade: str):
         return grade.split('.')[0]
     else:
         return grade
-
-def genWithMissing(convertedScores):
-    return 'Counting missing assignments, you have a {}'.format(genGrade(convertedScores))
 
 def genGrade(convertedScores):
     grade = sum([i[0] for i in convertedScores])
