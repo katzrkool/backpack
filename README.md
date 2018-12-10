@@ -6,6 +6,8 @@ This project is a Flask API/Scraper that takes a user's MyBackpack credentials, 
 To install, run 
 `pip -r requirements.txt`
 
+This project requires Python 3.6 or higher
+
 Then, for a development/test server you can just run `app.py`
 
 `python3 app.py`
