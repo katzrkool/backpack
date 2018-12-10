@@ -29,7 +29,7 @@ def genHTML(data, urlRoot):
                             with tfoot():
                                 if 'analytics' in i:
                                     with tr(colspan=2):
-                                        td('Disclaimer: If your teacher uses weighted grades, all of the analytics below are invalid', colspan=2, _class='disclaimer')
+                                        td('Disclaimer: If your teacher uses weighted grades, all of the analytics below may be invalid', colspan=2, _class='disclaimer')
                                     for x in i['analytics']:
                                         with tr(colspan=2):
                                             td(i['analytics'][x], colspan=2, _class=x)

@@ -6,6 +6,7 @@ from os import path
 
 app = Flask(__name__, static_url_path='/static', static_folder='../static/')
 
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -17,8 +18,9 @@ def login():
         gradeData = prettify(data)
         return genHTML(gradeData, request.url_root)
 
-@app.route('/json', methods=['GET', 'POST'])
-def json():
+
+@app.route('/api', methods=['GET', 'POST'])
+def api():
     if request.method == 'GET':
         return app.send_static_file('login.html')
     elif request.method == 'POST':
@@ -27,9 +29,11 @@ def json():
 
         return jsonify(prettify(data))
 
+
 @app.route('/faq')
 def faq():
     return app.send_static_file('faq.html')
+
 
 @app.route('/test')
 def test():
@@ -37,6 +41,7 @@ def test():
         data = f.read()
     gradeData = prettify(data)
     return genHTML(gradeData, request.url_root)
+
 
 if __name__ == '__main__':
     app.run()

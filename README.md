@@ -29,7 +29,7 @@ There's also an FAQ at /faq
 
 ## API Endpoints
 
-#### `json` (POST)
+#### `/api` (POST)
 Returns grade data in JSON format
 ##### Arguments
    * `username` (String): The user's myBackpack username

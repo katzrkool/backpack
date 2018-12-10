@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import re
 
+
 def prettify(webData):
     soup = BeautifulSoup(webData, "html.parser")
 
@@ -23,12 +24,12 @@ def prettify(webData):
         convertedScores = []
         missingAssignments = []
 
-        for i in scores:
+        for x in scores:
             try:
-                if i.split('/')[0] in ['?? ', 'M']:
-                    missingAssignments.append((0, float(i.split('/')[1])))
+                if x.split('/')[0] in ['?? ', 'M']:
+                    missingAssignments.append((0, float(x.split('/')[1])))
                 else:
-                    convertedScores.append((float(i.split('/')[0]), float(i.split('/')[1])))
+                    convertedScores.append((float(x.split('/')[0]), float(x.split('/')[1])))
             except ValueError:
                 pass
 
@@ -36,12 +37,16 @@ def prettify(webData):
         if len(convertedScores) > 0:
             dataPoint['analytics'] = {}
             dataPoint['analytics']['drop'] = dropAssignments(convertedScores)
+            dataPoint['analytics']['points'] = totalPoints(convertedScores)
 
         dataPoint.update({'class': course,
             'grade': grade,
+            'possible': sum([i[0] for i in convertedScores]),
+            'total': sum([i[1] for i in convertedScores]),
             'assignments': assignments})
         data.append(dataPoint)
     return data
+
 
 def isFloat(num) -> bool:
     try:
@@ -49,6 +54,7 @@ def isFloat(num) -> bool:
         return True
     except ValueError:
         return False
+
 
 def formatGrade(grade: str):
     if grade.endswith('.00'):
@@ -63,6 +69,7 @@ def genGrade(convertedScores):
     average = str(round((grade / total * 100), 2)) + '%'
 
     return average
+
 
 def dropAssignments(convertedScores):
 
@@ -85,6 +92,14 @@ def dropAssignments(convertedScores):
 
     return 'You can afford to lose {} points (an average of {} assignments) ' \
            'before dropping {}'.format(pointsLost, assignmentsLost, letters[letterBottom])
+
+
+def totalPoints(convertedScores):
+    possible = sum([i[0] for i in convertedScores])
+    total = sum([i[1] for i in convertedScores])
+
+    return f"You've earned {possible} points out of {total} points.  {possible} / {total} = {round(possible/total, 4)}"
+
 
 letters = {
     0.895: 'to a B',
