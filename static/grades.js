@@ -23,7 +23,6 @@ function adjustBars(bar) {
 }
 
 function addArrow(box) {
-    console.log(box.querySelector('.assignments'))
     if (box.querySelector('.assignments')) {
         const arrow = document.createElement('img');
         arrow.src = 'static/assets/down.svg';
@@ -58,6 +57,32 @@ function hideMissingBlurb(box) {
     }
 }
 
+function collapse() {
+    if (collapsed) {
+        for (const i of document.getElementsByClassName('surround')){
+            const arrow = i.querySelector('.arrow');
+            if (arrow && arrow.src.endsWith('down.svg')) {
+                arrowTrigger(i);
+            }
+        }
+        collapsed = false;
+    } else {
+        for (const i of document.getElementsByClassName('surround')){
+            const arrow = i.querySelector('.arrow');
+            if (arrow && arrow.src.endsWith('up.svg')) {
+                arrowTrigger(i);
+            }
+        }
+        collapsed = true;
+    }
+}
+
+function keyPress(oToCheckField, oKeyEvent) {
+    if (oKeyEvent.key === 'c') {
+        collapse()
+    }
+}
+
 function arrowVisible() {
     return Boolean(document.querySelector('.assignments'))
 }
@@ -67,6 +92,8 @@ for (const i of document.getElementsByClassName('surround')){
     addArrow(i);
     hideMissingBlurb(i);
 }
+
+let collapsed = true;
 
 if (arrowVisible()) {
     const footer = document.querySelector('footer');
