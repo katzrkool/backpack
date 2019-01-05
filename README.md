@@ -53,7 +53,9 @@ Returns grade data in JSON format
 			}
 		],
 		"class": "AP Biology",
-		"grade": "100%"
+		"grade": "100%",
+		"earned": 17,
+		"possible": 17
 	}
 ]
 ````

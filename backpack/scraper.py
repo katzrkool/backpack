@@ -1,4 +1,5 @@
 import requests
+from backpack.autherror import AuthError
 class Scraper:
     def __init__(self, username, password):
         self.username = username
@@ -15,7 +16,9 @@ class Scraper:
         payload = {'form:signIn':'form:signIn', 'form:userId':self.username, 'form:userPassword': self.password,
                    'AJAXREQUEST':'_viewRoot', 'AJAX:EVENTS_COUNT': '1', 'form':'form', 'javax.faces.ViewState': 'j_id1'}
 
-        self.session.post('''https://thenewschool.seniormbp.com/SeniorApps/facelets/registration/loginCenter.xhtml''', data=payload)
+        r = self.session.post('''https://thenewschool.seniormbp.com/SeniorApps/facelets/registration/loginCenter.xhtml''', data=payload)
+        if 'User Name or Password is not found' in r.text:
+            raise AuthError
         self.session.get('https://thenewschool.seniormbp.com/SeniorApps/studentParent/academic/dailyAssignments/gradeBookGrades.faces')
         payload = {
             'f': 'f', 'f:_idcl': 'f:inside:j_id_jsp_1774471256_10pc5',

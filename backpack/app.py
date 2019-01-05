@@ -1,22 +1,28 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
 from backpack.scraper import Scraper
 from backpack.pretty import prettify
 from backpack.gen import genHTML
+from backpack.autherror import AuthError
 from os import path
 
 app = Flask(__name__, static_url_path='/static', static_folder='../static/')
-
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return app.send_static_file('login.html')
     elif request.method == 'POST':
-        data = Scraper(request.form['username'],
-                       request.form['password']).scrape()
+        if request.args.get("login") == 'failed':
+            return redirect(request.url_root, '307')
+        else:
+            try:
+                data = Scraper(request.form['username'],
+                            request.form['password']).scrape()
+            except AuthError:
+                return redirect('?login=failed', '303')
 
-        gradeData = prettify(data)
-        return genHTML(gradeData, request.url_root)
+            gradeData = prettify(data)
+            return genHTML(gradeData, request.url_root)
 
 
 @app.route('/api', methods=['GET', 'POST'])
@@ -24,8 +30,11 @@ def api():
     if request.method == 'GET':
         return app.send_static_file('login.html')
     elif request.method == 'POST':
-        data = Scraper(request.form['username'],
-                       request.form['password']).scrape()
+        try:
+            data = Scraper(request.form['username'],
+                        request.form['password']).scrape()
+        except AuthError:
+            return jsonify(['ERROR! Username or password is incorrect']), 401
 
         return jsonify(prettify(data))
 

@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import re
 
 
-def prettify(webData):
+def prettify(webData) -> list:
     soup = BeautifulSoup(webData, "html.parser")
 
     data = []
@@ -20,61 +20,46 @@ def prettify(webData):
             }
             assignment['score'] = '{}/{}'.format(re.sub(r'^\xa0$', '?? ', assignment['earned']), assignment['possible'])
             assignments.append(assignment)
-        scores = [x['score'] for x in assignments]
         convertedScores = []
-        missingAssignments = []
 
-        for x in scores:
+        for x in assignments:
             try:
-                if x.split('/')[0] in ['?? ', 'M']:
-                    missingAssignments.append((0, float(x.split('/')[1])))
-                else:
-                    convertedScores.append((float(x.split('/')[0]), float(x.split('/')[1])))
+                if not x['score'].split('/')[0] in ['?? ', 'M']:
+                    convertedScores.append(x)
             except ValueError:
                 pass
 
         dataPoint = {}
         if len(convertedScores) > 0:
             dataPoint['analytics'] = {}
-            dataPoint['analytics']['drop'] = dropAssignments(convertedScores)
-            dataPoint['analytics']['points'] = totalPoints(convertedScores)
+            dataPoint['analytics']['warning'] = 'Analytics will be turned off this week as I figure out and test how semester 2 grades work. They\'ll be back by Monday!'
+            #dataPoint['analytics']['drop'] = dropAssignments(convertedScores)
+            #dataPoint['analytics']['points'] = totalPoints(convertedScores)
 
         dataPoint.update({'class': course,
             'grade': grade,
-            'possible': sum([i[0] for i in convertedScores]),
-            'total': sum([i[1] for i in convertedScores]),
+            'earned': sum([float(i['earned']) for i in convertedScores]),
+            'possible': sum([float(i['possible']) for i in convertedScores]),
             'assignments': assignments})
         data.append(dataPoint)
     return data
 
+# Some utils for generating avgs and totals
 
-def isFloat(num) -> bool:
-    try:
-        float(num)
-        return True
-    except ValueError:
-        return False
-
-
-def formatGrade(grade: str):
+def formatGrade(grade: str) -> str:
     if grade.endswith('.00'):
         return grade.split('.')[0]
     else:
         return grade
 
-def genGrade(convertedScores):
-    grade = sum([i[0] for i in convertedScores])
-    total = sum([i[1] for i in convertedScores])
+# Below here is analytics generation stuff
 
-    average = str(round((grade / total * 100), 2)) + '%'
+def dropAssignments(convertedScores: list) -> str:
 
-    return average
+    keys = [float(i['earned']) for i in convertedScores]
+    values = [float(i['possible']) for i in convertedScores]
 
-
-def dropAssignments(convertedScores):
-
-    keys = [i[0] for i in convertedScores]
-    values = [i[1] for i in convertedScores]
+    print(keys)
 
     grade = sum(keys)
     total = sum(values)
@@ -94,11 +79,14 @@ def dropAssignments(convertedScores):
            'before dropping {}'.format(pointsLost, assignmentsLost, letters[letterBottom])
 
 
-def totalPoints(convertedScores):
-    possible = sum([i[0] for i in convertedScores])
-    total = sum([i[1] for i in convertedScores])
+def totalPoints(scores: list) -> str:
+    # Makes three totals, Overall, 1st semester, 2nd semester
+    data = {}
 
-    return f"You've earned {possible} points out of {total} points.  {possible} / {total} = {round(possible/total, 4)}"
+    possible = sum([float(i['earned']) for i in scores])
+    total = sum([float(i['possible']) for i in scores])
+
+    # data['overall'] = f"You've earned {overallPossible} points out of {overallTotal} points.  {overallPossible} / {overallTotal} = {round(overallPossible/overallTotal, 4)}"
 
 
 letters = {
