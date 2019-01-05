@@ -13,13 +13,13 @@ def login():
         return app.send_static_file('login.html')
     elif request.method == 'POST':
         if request.args.get("login") == 'failed':
-            return redirect(request.url_root, '307')
+            return redirect(request.url_root, code=307)
         else:
             try:
                 data = Scraper(request.form['username'],
                             request.form['password']).scrape()
             except AuthError:
-                return redirect('?login=failed', '303')
+                return redirect('?login=failed', code=303)
 
             gradeData = prettify(data)
             return genHTML(gradeData, request.url_root)
