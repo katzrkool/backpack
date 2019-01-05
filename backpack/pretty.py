@@ -32,7 +32,7 @@ def prettify(webData) -> list:
         dataPoint = {}
         if len(convertedScores) > 0:
             dataPoint['analytics'] = {}
-            dataPoint['analytics']['warning'] = 'Analytics will be turned off this week as I figure out and test how semester 2 grades work. They\'ll be back by Monday!'
+            dataPoint['analytics']['warning'] = 'Analytics will be turned off this week as I figure out and test how semester 2 grades work. They\'ll be back by Monday (2018-01-14)!'
             #dataPoint['analytics']['drop'] = dropAssignments(convertedScores)
             #dataPoint['analytics']['points'] = totalPoints(convertedScores)
 
