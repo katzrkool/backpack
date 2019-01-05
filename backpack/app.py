@@ -34,7 +34,7 @@ def api():
             data = Scraper(request.form['username'],
                         request.form['password']).scrape()
         except AuthError:
-            return jsonify(['ERROR! Username or password is incorrect'])
+            return jsonify(['ERROR! Username or password is incorrect']), 401
 
         return jsonify(prettify(data))
 
