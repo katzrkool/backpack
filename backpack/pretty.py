@@ -24,7 +24,9 @@ def prettify(webData) -> list:
 
         for x in assignments:
             try:
-                if not x['score'].split('/')[0] in ['?? ', 'M']:
+                if not x['score'].split('/')[0] in ['?? ', 'M', 'E']:
+                    x['earned'] = float(x['earned'])
+                    x['possible'] = float(x['possible'])
                     convertedScores.append(x)
             except ValueError:
                 pass
@@ -56,8 +58,8 @@ def formatGrade(grade: str) -> str:
 
 def dropAssignments(convertedScores: list) -> str:
 
-    keys = [float(i['earned']) for i in convertedScores]
-    values = [float(i['possible']) for i in convertedScores]
+    keys = [i['earned'] for i in convertedScores]
+    values = [i['possible'] for i in convertedScores]
 
     print(keys)
 
@@ -83,8 +85,8 @@ def totalPoints(scores: list) -> str:
     # Makes three totals, Overall, 1st semester, 2nd semester
     data = {}
 
-    possible = sum([float(i['earned']) for i in scores])
-    total = sum([float(i['possible']) for i in scores])
+    possible = sum([i['earned'] for i in scores])
+    total = sum([i['possible'] for i in scores])
 
     # data['overall'] = f"You've earned {overallPossible} points out of {overallTotal} points.  {overallPossible} / {overallTotal} = {round(overallPossible/overallTotal, 4)}"
 
