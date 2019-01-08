@@ -15,10 +15,10 @@ def strip_personal_info(event, hint):
     return event
 
 # If a sentry URL exists, enable sentry error reporting
-if environ['SENTRY_DSN']:
+if environ.get('SENTRY_DSN'):
     sentry_sdk.init(
         before_send=strip_personal_info,
-        dsn=environ['SENTRY_DSN'],
+        dsn=environ.get('SENTRY_DSN'),
         integrations=[FlaskIntegration()]
     )
 
