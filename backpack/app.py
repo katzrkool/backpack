@@ -3,7 +3,24 @@ from backpack.scraper import Scraper
 from backpack.pretty import prettify
 from backpack.gen import genHTML
 from backpack.autherror import AuthError
-from os import path
+from os import path, environ
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+
+
+def strip_personal_info(event, hint):
+    # Stripping username and password
+    event['request']['data']['username'] = None
+    event['request']['data']['password'] = None
+    return event
+
+# If a sentry URL exists, enable sentry error reporting
+if environ['SENTRY_DSN']:
+    sentry_sdk.init(
+        before_send=strip_personal_info,
+        dsn=environ['SENTRY_DSN'],
+        integrations=[FlaskIntegration()]
+    )
 
 app = Flask(__name__, static_url_path='/static', static_folder='../static/')
 
