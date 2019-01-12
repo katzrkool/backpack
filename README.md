@@ -1,33 +1,31 @@
-# MyBackpack Grade API/Site
+# MyBackpack Grade Site
+A client to view grades from MyBackpack in a simplified, prettier interface.
 
-This project is a Flask API/Scraper that takes a user's MyBackpack credentials, then display's their grades in a prettier interface
+## Installation
 
-## Installation and Running
-To install, run 
-`pip -r requirements.txt`
+This project uses [pipenv](https://pipenv.readthedocs.io/en/latest/) to manage packages. To install the dependencies, just run `pipenv install`
 
-This project requires Python 3.6 or higher
+Run `app.py` and launch `0.0.0.0:5000` in your web browser to see the login page.
 
-Then, for a development/test server you can just run `app.py`
+`0.0.0.0:5000/test` is available for testing the parser and html generator without using real data.
 
-`python3 app.py`
-
-Navigate to `0.0.0.0:5000` and you should see the login page.
-
-Go to `0.0.0.0:5000/test`, and you will be able to test the parser and html generator without using real data
-
-Do not use the development/test server for deployment! See [Flask Docs](http://flask.pocoo.org/docs/1.0/deploying/) for more
+Don't use the development server for deployment! See [Flask Docs](http://flask.pocoo.org/docs/1.0/deploying/) for more info.
 
 ## Website
-Instead of the confusing myBackpack website, this project provides a nice, simplified alternative. (Example Below)
+Instead of the confusing myBackpack website, grades are presented in a cleaner, simpler way. (Example below)
 
-![Example of grades](screenshots/example.png)
+![Example of grade checker](screenshots/example.png)
 
-It also displays all assignments and their respective scores, and lets the user know how many points they can afford to lose before dropping to the next letter grade.
+It also displays all assignments and displays their respective scores.
 
-If the class is weighted, the "analytics" aren't valid. See the FAQ for more info
+If assignments are available from different semesters, they'll be split by a lovely horizontal line.
 
-There's also an FAQ at /faq
+Some additional analytics are generated such as how many points one can afford to lose before dropping to the next letter grade, and what grade would result if all assignments were added up manually (to see if a class is weighted).
+
+Unfortunately, if a class is weighted, these analytics are not accurate. See the FAQ more.
+
+There's also an faq available at /faq
+
 
 ## API Endpoints
 
@@ -37,11 +35,13 @@ Returns grade data in JSON format
    * `username` (String): The user's myBackpack username
    * `password` (String): The user's myBackpack password
 ##### JSON Example
+
 ````json
 [
 	{
 		"analytics": {
-			"drop": "You can afford to lose 1 points (an average of 0.06 assignments) before dropping to a B"
+			"drop": "You can afford to lose 1 points (an average of 0.06 assignments) before dropping to a B",
+			"points": "You've earned 17.0 points out of 17.0 points.   17.0 / 17.0 = 1.0"
 		},
 		"assignments": [
 			{
@@ -58,6 +58,16 @@ Returns grade data in JSON format
 		"possible": 17
 	}
 ]
+````
+
+Sometimes, analytics aren't available for various reasons, and if so, the analytics object will only have one item in it, an 'info' item. See the example below.
+
+````json
+{
+    "analytics": {
+			"info": "Analytics have been temporarily turned off because the Semester 2 transition broke them all."
+		}
+}
 ````
 
 ## Contributing/Issues

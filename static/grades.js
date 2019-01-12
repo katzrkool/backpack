@@ -65,6 +65,7 @@ function collapse() {
                 arrowTrigger(i);
             }
         }
+        document.getElementById('collapse').textContent = 'Collapse';
         collapsed = false;
     } else {
         for (const i of document.getElementsByClassName('surround')){
@@ -73,6 +74,7 @@ function collapse() {
                 arrowTrigger(i);
             }
         }
+        document.getElementById('collapse').textContent = 'Expand';
         collapsed = true;
     }
 }

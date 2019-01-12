@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import re
+from datetime import datetime
 
 
 def prettify(webData) -> list:
@@ -16,32 +17,45 @@ def prettify(webData) -> list:
                 'name': row.find(class_="dailyGradeAssignmentColumn").get_text().replace('\n', ''),
                 'earned': formatGrade(row.find(class_="dailyGradeScoreColumn").get_text()),
                 'possible': formatGrade(row.find(class_="dailyGradePossibleColumn").get_text()),
-                'due': row.find(class_="dailyGradeDueDateColumn").get_text()
+                'due': row.find(class_="dailyGradeDueDateColumn").get_text(),
             }
             assignment['score'] = '{}/{}'.format(re.sub(r'^\xa0$', '?? ', assignment['earned']), assignment['possible'])
+
+            # adding a year datapoint will most likely be not helpful to anyone
+            # using the api, but will reduce calculations here.
+            assignment['year'] = assignment['due'].split('/')[-1]
+
             assignments.append(assignment)
-        convertedScores = []
+        scores = []
 
         for x in assignments:
             try:
                 if not x['score'].split('/')[0] in ['?? ', 'M', 'E']:
                     x['earned'] = float(x['earned'])
                     x['possible'] = float(x['possible'])
-                    convertedScores.append(x)
+                    scores.append(x)
             except ValueError:
                 pass
 
         dataPoint = {}
-        if len(convertedScores) > 0:
-            dataPoint['analytics'] = {}
-            dataPoint['analytics']['warning'] = 'Analytics will be turned off this week as I figure out and test how semester 2 grades work. They\'ll be back by Monday (2018-01-14)!'
-            #dataPoint['analytics']['drop'] = dropAssignments(convertedScores)
-            #dataPoint['analytics']['points'] = totalPoints(convertedScores)
+
+        currentYear = str(datetime.now().year)
+        currentYearScores = [i for i in scores if
+                             i['year'] == currentYear]
+
+        dataPoint['analytics'] = {}
+
+        if len(currentYearScores) > 0:
+            dataPoint['analytics']['drop'] = dropAssignments(currentYearScores)
+            dataPoint['analytics']['points'] = totalPoints(currentYearScores)
+        else:
+            dataPoint['analytics']['info'] = 'No assignments found in the current semester to analyze.'
+
 
         dataPoint.update({'class': course,
             'grade': grade,
-            'earned': sum([float(i['earned']) for i in convertedScores]),
-            'possible': sum([float(i['possible']) for i in convertedScores]),
+            'earned': sum([float(i['earned']) for i in scores]),
+            'possible': sum([float(i['possible']) for i in scores]),
             'assignments': assignments})
         data.append(dataPoint)
     return data
@@ -56,24 +70,24 @@ def formatGrade(grade: str) -> str:
 
 # Below here is analytics generation stuff
 
-def dropAssignments(convertedScores: list) -> str:
+def dropAssignments(scores: list) -> str:
 
-    keys = [i['earned'] for i in convertedScores]
-    values = [i['possible'] for i in convertedScores]
-
-    print(keys)
+    keys = [i['earned'] for i in scores]
+    values = [i['possible'] for i in scores]
 
     grade = sum(keys)
     total = sum(values)
 
     average = (grade/total)
     avgAssignment = total / len(values)
+
     letterBottom = (int((average+0.005)*10)/10)
     if letterBottom >= 1.0:
         letterBottom = 0.9
     elif letterBottom == 0.0:
         return ''
     letterBottom -= 0.005
+
     pointsLost = int((grade * (1 / letterBottom)) - total)
     assignmentsLost = round(pointsLost / avgAssignment, 2)
 
@@ -82,13 +96,11 @@ def dropAssignments(convertedScores: list) -> str:
 
 
 def totalPoints(scores: list) -> str:
-    # Makes three totals, Overall, 1st semester, 2nd semester
-    data = {}
 
     possible = sum([i['earned'] for i in scores])
     total = sum([i['possible'] for i in scores])
 
-    # data['overall'] = f"You've earned {overallPossible} points out of {overallTotal} points.  {overallPossible} / {overallTotal} = {round(overallPossible/overallTotal, 4)}"
+    return f"You've earned {possible} points out of {total} points.  {possible} / {total} = {round(possible/total, 4)}"
 
 
 letters = {

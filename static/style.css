@@ -57,7 +57,7 @@ body {
 }
 
 @keyframes fill {
-    0% { width: 0% }
+    0% { width: 0 }
     100% { width: 100% }
 }
 
@@ -73,21 +73,19 @@ th {
     font-size: x-large;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (orientation: portrait) {
     .surround {
         width: 100%;
+        font-size: 200%;
+    }
+    .progress > span {
+        height: 40px;
     }
     .progress {
-        margin-left: 10%;
-        margin-right: 10%;
-        margin-top: -10%;
-        margin-bottom: 5%;
+        padding: 4px;
     }
-}
-
-@media screen and (min-width: 500px){
     th {
-        padding: 0 20px;
+        font-size: larger;
     }
 }
 
@@ -110,4 +108,9 @@ footer {
 
 .disclaimer {
     color: #FF0000;
+}
+
+#collapse {
+    border-radius: 13px;
+    padding: 10px 30px;
 }
