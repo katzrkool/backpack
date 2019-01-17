@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, redirect
 from backpack.scraper import Scraper
 from backpack.pretty import prettify
 from backpack.gen import genHTML
-from backpack.autherror import AuthError
+from backpack.errors import AuthError, MyBackpackBrokeError
 from os import path, environ
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -37,6 +37,8 @@ def login():
                             request.form['password']).scrape()
             except AuthError:
                 return redirect('?login=failed', code=303)
+            except MyBackpackBrokeError:
+                return redirect('error')
 
             gradeData = prettify(data)
             return genHTML(gradeData, request.url_root)
@@ -52,6 +54,8 @@ def api():
                         request.form['password']).scrape()
         except AuthError:
             return jsonify(['ERROR! Username or password is incorrect']), 401
+        except MyBackpackBrokeError:
+            return jsonify(['ERROR! MyBackpack didn\' reply in a timely manner.']), 504
 
         return jsonify(prettify(data))
 
@@ -67,6 +71,10 @@ def test():
         data = f.read()
     gradeData = prettify(data)
     return genHTML(gradeData, request.url_root)
+
+@app.route('/error')
+def error():
+    return app.send_static_file('error.html')
 
 
 if __name__ == '__main__':
