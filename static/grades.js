@@ -80,7 +80,7 @@ function collapse() {
 }
 
 function keyPress(oToCheckField, oKeyEvent) {
-    if (oKeyEvent.key === 'c') {
+    if (oKeyEvent.key === 'c' || oKeyEvent.key === 'e') {
         collapse()
     }
 }
