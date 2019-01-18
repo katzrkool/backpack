@@ -1,4 +1,5 @@
 import requests
+from requests.exceptions import ConnectionError
 from backpack.errors import AuthError, MyBackpackBrokeError
 class Scraper:
     def __init__(self, username, password):
@@ -21,9 +22,8 @@ class Scraper:
             'cookie': "cookies=true; JSESSIONID={}".format(jsessionid),
             'content-type': "application/x-www-form-urlencoded"
         }
-        payload = {'form:signIn':'form:signIn', 'form:userId':self.username, 'form:userPassword': self.password,
-                   'AJAXREQUEST':'_viewRoot', 'AJAX:EVENTS_COUNT': '1', 'form':'form', 'javax.faces.ViewState': 'j_id1'}
-
+        payload = {'form:signIn': 'form:signIn', 'form:userId': self.username, 'form:userPassword': self.password,
+                   'AJAXREQUEST': '_viewRoot', 'AJAX:EVENTS_COUNT': '1', 'form': 'form', 'javax.faces.ViewState': 'j_id1'}
         try:
             r = self.session.post('''https://thenewschool.seniormbp.com/SeniorApps/facelets/registration/loginCenter.xhtml''', data=payload)
         except ConnectionError:

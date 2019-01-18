@@ -10,9 +10,30 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 
 def strip_personal_info(event, hint):
     # Stripping username and password
-    event['request']['data']['username'] = None
-    event['request']['data']['password'] = None
+    for i in ['username', 'password']:
+        if i in event['request']['data']:
+            event['request']['data'].pop(i)
+
+    # if it fails during the scraper, there was a chance the payload sent to myBackpack
+    # (containing username and password) would be sent (and we don't want that)
+    for i in event['exception']['values']:
+        i['stacktrace']['frames'] = \
+            [destroyFormData(x) for x in i['stacktrace']['frames']]
     return event
+
+
+def destroyFormData(data: dict) -> dict:
+    if 'jsessionid' in data['vars']:
+        data['vars'].pop('jsessionid')
+    if 'payload' in data['vars']:
+        payload = data['vars']['payload']
+        if 'form:userId' in payload:
+            data['vars']['payload'].pop('form:userId')
+        if 'form:userPassword' in payload:
+            data['vars']['payload'].pop('form:userPassword')
+
+    return data
+
 
 # If a sentry URL exists, enable sentry error reporting
 if environ.get('SENTRY_DSN'):
@@ -71,6 +92,7 @@ def test():
         data = f.read()
     gradeData = prettify(data)
     return genHTML(gradeData, request.url_root)
+
 
 @app.route('/error')
 def error():

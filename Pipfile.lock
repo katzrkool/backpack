@@ -135,18 +135,18 @@
                 "flask"
             ],
             "hashes": [
-                "sha256:2d12914aa71845670aea9555f63091bf55c953ed07a5e64bffa5a149f0a2b8dd",
-                "sha256:dc775d5d6672cf555d721c3cc9329cc9caed6369ef9aa1b87286017d4ad49614"
+                "sha256:6ce9c87815ffa702e3bfd3b9dc4efbc04bb39b6ecb38bef5b7c55d49fb2821b6",
+                "sha256:f3e82027aa82f08c1261beee7155c8078a5c2e390d4c4b7845116b4f01235e39"
             ],
             "index": "pypi",
-            "version": "==0.6.6"
+            "version": "==0.6.8"
         },
         "soupsieve": {
             "hashes": [
-                "sha256:1d6ca207e67765d5297a59d1b5a18344a84587674d8c002cea72081c01a7f638",
-                "sha256:dff67354bff219f169ee634173c0148fcb0f7b23304ffddcfa2bb2f07accf30a"
+                "sha256:10687fc53eeb3518e01a0ac84d3d711da623d3298a3039459d3f649927c4a270",
+                "sha256:b23a0d7da0247200fe83c67c34de9d7599ad404106367313d8e65e04174d0b4b"
             ],
-            "version": "==1.7"
+            "version": "==1.7.2"
         },
         "urllib3": {
             "hashes": [
