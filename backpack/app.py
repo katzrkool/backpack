@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify, redirect, abort
 from backpack.scraper import Scraper
 from backpack.pretty import prettify
 from backpack.gen import genHTML
@@ -56,13 +56,13 @@ def login():
             try:
                 data = Scraper(request.form['username'],
                             request.form['password']).scrape()
+
+                gradeData = prettify(data)
+                return genHTML(gradeData, request.url_root)
             except AuthError:
                 return redirect('?login=failed', code=303)
             except MyBackpackBrokeError:
-                return redirect('error')
-
-            gradeData = prettify(data)
-            return genHTML(gradeData, request.url_root)
+                abort(504)
 
 
 @app.route('/api', methods=['GET', 'POST'])
@@ -93,10 +93,19 @@ def test():
     gradeData = prettify(data)
     return genHTML(gradeData, request.url_root)
 
+# Error Handlers below
 
-@app.route('/error')
-def error():
-    return app.send_static_file('error.html')
+@app.errorhandler(504)
+def backpackError(error):
+    return app.send_static_file('errors/504.html'), 504
+
+@app.errorhandler(500)
+def internalError(error):
+    return app.send_static_file('errors/500.html'), 500
+
+@app.errorhandler(404)
+def notFound(error):
+    return app.send_static_file('errors/404.html'), 404
 
 
 if __name__ == '__main__':
