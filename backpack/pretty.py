@@ -78,6 +78,9 @@ def dropAssignments(scores: list) -> str:
     grade = sum(keys)
     total = sum(values)
 
+    if total == 0:
+        return 'Couldn\'t calculate how many points you can afford to lose because there have been 0 total points in the class.'
+
     average = (grade/total)
     avgAssignment = total / len(values)
 
@@ -100,7 +103,13 @@ def totalPoints(scores: list) -> str:
     possible = sum([i['earned'] for i in scores])
     total = sum([i['possible'] for i in scores])
 
-    return f"You've earned {possible} points out of {total} points.  {possible} / {total} = {round(possible/total, 4)}"
+    return f"You've earned {possible} points out of {total} points.  {possible} / {total} = {divideTotal(possible, total)}"
+
+def divideTotal(possible: float, total: float):
+    if total == 0:
+        return 'nevermind, dividing by zero isn\t possible yet.'
+    else:
+        return round((possible/total), 4)
 
 
 letters = {
