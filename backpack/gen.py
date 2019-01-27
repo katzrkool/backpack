@@ -51,6 +51,8 @@ def genHTML(data, urlRoot):
         with footer():
             raw('<p>Arrows made by <a href="https://fontawesome.com">Font Awesome</a>.<a href="https://fontawesome.com/license/free">License</a>. No changes to images were made. <a href="faq">Information/FAQ</a>.<br>Press "e" or "c" to expand/collapse all assignments<br><br>')
             button('Expand', id='collapse', onclick="collapse()")
-        script(type='text/javascript', src='{}static/grades.js'.format(urlRoot))
+            button('Toggle Dark Mode', id='darkButton', onclick="toggle()")
+        script(type='text/javascript', src=f'{urlRoot}static/grades.js')
+        script(type='text/javascript', src=f'{urlRoot}static/darkmode.js')
 
     return doc.render()

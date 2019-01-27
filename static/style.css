@@ -110,7 +110,17 @@ footer {
     color: #FF0000;
 }
 
-#collapse {
+#collapse, #darkButton {
     border-radius: 13px;
     padding: 10px 30px;
+}
+
+/* Darkmode Stuff */
+
+.darkmode {
+    background-color: #515151;
+}
+
+.darkmode .surround, .darkmode footer {
+    background-color: #d3d3d3;
 }
