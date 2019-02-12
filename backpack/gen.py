@@ -6,6 +6,7 @@ def genHTML(data, urlRoot):
     doc = dominate.document('Grades')
 
     with doc.head:
+        meta(charset='UTF-8')
         link(rel='stylesheet', href='{}static/style.css'.format(urlRoot), type='text/css')
 
     with doc:
