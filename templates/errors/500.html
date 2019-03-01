@@ -10,7 +10,7 @@
     <hr>
 <p>That is not good. But don't worry, an error report has been automatically sent and the problem will hopefully be fixed soon.</p>
 <p>In the mean time, enjoy this hastily drawn picture of a cat that I made.</p>
-    <img src="static/assets/errorCat.svg" alt="Error cat">
+    <img src="{{ url_for('static', filename='assets/errorCat.svg') }}" alt="Error cat">
 </main>
 </body>
 </html>

@@ -1,7 +1,6 @@
-from flask import Flask, request, jsonify, redirect, abort
+from flask import Flask, request, jsonify, redirect, abort, render_template
 from backpack.scraper import Scraper
 from backpack.pretty import prettify
-from backpack.gen import genHTML
 from backpack.errors import AuthError, MyBackpackBrokeError
 from os import path, environ
 import sentry_sdk
@@ -43,7 +42,9 @@ if environ.get('SENTRY_DSN'):
         integrations=[FlaskIntegration()]
     )
 
-app = Flask(__name__, static_url_path='/static', static_folder='../static/')
+app = Flask(__name__, static_url_path='/static', static_folder='../static/',
+            template_folder='../templates/')
+
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -58,7 +59,7 @@ def login():
                             request.form['password']).scrape()
 
                 gradeData = prettify(data)
-                return genHTML(gradeData, request.url_root)
+                return render_template('index.html', data=gradeData)
             except AuthError:
                 return redirect('?login=failed', code=303)
             except MyBackpackBrokeError:
@@ -91,21 +92,30 @@ def test():
     with open('{}/../resources/test.html'.format(path.dirname(path.realpath(__file__))), 'r') as f:
         data = f.read()
     gradeData = prettify(data)
-    return genHTML(gradeData, request.url_root)
+    return render_template('index.html', data=gradeData)
+
+
+@app.route('/test/api')
+def testAPI():
+    with open('{}/../resources/test.html'.format(path.dirname(path.realpath(__file__))), 'r') as f:
+        data = f.read()
+    return jsonify(prettify(data))
 
 # Error Handlers below
 
 @app.errorhandler(504)
 def backpackError(error):
-    return app.send_static_file('errors/504.html'), 504
+    return render_template('errors/504.html'), 504
+
 
 @app.errorhandler(500)
 def internalError(error):
-    return app.send_static_file('errors/500.html'), 500
+    return render_template('errors/500.html'), 500
+
 
 @app.errorhandler(404)
 def notFound(error):
-    return app.send_static_file('errors/404.html'), 404
+    return render_template('errors/404.html'), 404
 
 
 if __name__ == '__main__':

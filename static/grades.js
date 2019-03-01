@@ -99,5 +99,5 @@ let collapsed = true;
 
 if (arrowVisible()) {
     const footer = document.querySelector('footer');
-    footer.style.display = 'inherit';
+    footer.style.display = 'block';
 }

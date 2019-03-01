@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grades</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body onkeypress="keyPress(this, event)">
+<main>
+    {% for i in data %}
+        <span class="surround">
+            <h1 class="grade">{{ i.class }}: {{ i.grade }}</h1>
+            <!-- These triple empty spans are the progress bar, and are filled in via JS-->
+            <span class="progress">
+                <span>
+                    <span></span>
+                </span>
+            </span>
+
+            {% if i.assignments|length > 0 %}
+                <table class="assignments">
+                    <thead>
+                        <tr>
+                            <th>Assignment</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <!-- The HR puts a horizontal line between different years -->
+                        {% for x in i.assignments %}
+                            {% if loop.index0 > 0 and i.assignments[loop.index0].year != i.assignments[loop.index0 - 1].year %}
+                                <tr>
+                                    <td colspan="2">
+                                        <hr>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <td>{{ x.name }}</td>
+                                <td>{{ x.score }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        {% if 'analytics' in i %}
+                            {% if 'info' not in i.analytics %}
+                                <tr>
+                                    <td colspan="2" class="disclaimer">
+                                        Disclaimer: If your teacher uses weighted grades, all of the analytics below may be invalid. Also, the analytics below only apply for the current semester
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            {% for x in i.analytics %}
+                                <tr>
+                                    <td colspan="2" class="{{ x }}">{{ i.analytics[x] }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tfoot>
+                </table>
+            {% endif %}
+        </span>
+    {% endfor %}
+    <footer>
+        <p>Arrows made by <a href="https://fontawesome.com">Font Awesome</a>.<a href="https://fontawesome.com/license/free">License</a>. No changes to images were made. <a href="{{ url_for('faq') }}">Information/FAQ</a>.
+            <br>Press "e" or "c" to expand/collapse all assignments<br></p>
+        <button id="collapse" onclick="collapse()">Expand</button>
+        <button id="darkButton" onclick="toggle()">Toggle Dark Mode</button>
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='grades.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='darkmode.js') }}"></script>
+</main>
+</body>
+</html>

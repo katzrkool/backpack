@@ -11,13 +11,13 @@
     <h2>MyBackpack didn't respond/broke, unfortunately.</h2>
     <h3>What to do</h3>
     <ul>
-        <li><a href="../..">Go back to the login page</a> and try again</li>
+        <li><a href="{{ url_for('login') }}">Go back to the login page</a> and try again</li>
         <li>Try logging into myBackpack. If myBackpack works, and this site doesn't, please contact me. </li>
         <li>Wait. If myBackpack is down, there is nothing you or I can do, unfortunately. In the mean time, enjoy this hastily drawn picture of a cat that I made.</li>
 
 
     </ul>
-    <img src="static/assets/errorCat.svg" alt="Error cat">
+    <img src="{{ url_for('static', filename='assets/errorCat.svg') }}" alt="Error cat">
 
 </main>
 </body>
