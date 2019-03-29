@@ -1,49 +1,16 @@
-function setCookie(name, value) {
-    document.cookie = name + '=' + value  + `; path=/; domain=${topLevelDomain()}; expires=${tenYears()}`;
-}
-
-function tenYears() {
-    const CookieDate = new Date;
-    CookieDate.setFullYear(CookieDate.getFullYear() +10);
-    return CookieDate.toUTCString();
-}
-
-function topLevelDomain() {
-    if (document.domain === '0.0.0.0') {
-        return document.domain;
+function triggerDarkMode(on, set=true) {
+    if (set) {
+        localStorage.setItem('darkmode',  on.toString())
     }
-    return document.domain.split('.').slice(-2).join('.');
-}
-
-function getCookie(c_name) {
-    let c_start;
-    let c_end;
-    if (document.cookie.length > 0) {
-        c_start = document.cookie.indexOf(c_name + '=');
-        if (c_start !== -1) {
-            c_start = c_start + c_name.length + 1;
-            c_end = document.cookie.indexOf(';', c_start);
-            if (c_end === -1) {
-                c_end = document.cookie.length;
-            }
-            return unescape(document.cookie.substring(c_start, c_end));
-        }
-    }
-    return null;
-}
-
-function triggerDarkMode(on) {
-    if (on) {
-        setCookie('darkmode', 'true');
+    if (document.body.classList.contains('darkmode')) {
+        document.body.classList.remove('darkmode');
     } else {
-        setCookie('darkmode', 'false');
+        document.body.classList.add('darkmode');
     }
-    document.body.classList.toggle('darkmode');
 }
 
 function toggle() {
-    const cookie = getCookie('darkmode');
-    if (cookie === 'true') {
+    if (document.body.classList.contains('darkmode')) {
       triggerDarkMode(false);
     } else {
         triggerDarkMode(true);
@@ -51,19 +18,35 @@ function toggle() {
 }
 
 function darkTest(e) {
-    if (e.matches) {
-        triggerDarkMode(true);
-    } else {
-        triggerDarkMode(false);
+    // If the user already has a pref set, we don't want to adjust the color based on system pref
+    if (!localStorage.getItem('darkmode')) {
+        if (e.matches) {
+            triggerDarkMode(true, false);
+        } else {
+            triggerDarkMode(false, false);
+        }
     }
 }
 
 function init() {
-    const cookie = getCookie('darkmode');
+    const darkPref = localStorage.getItem('darkmode');
     const mql = window.matchMedia('(prefers-color-scheme: dark)');
     mql.addListener(darkTest);
-    if (cookie === 'true' || mql.matches) {
-        triggerDarkMode(true);
+
+    // Some of the things in the statements below are redundant, but I really want to make sure someone's preference
+    // doesn't get messed up.
+    if (darkPref) {
+        if (darkPref === 'true') {
+            triggerDarkMode(true);
+        } else if (darkPref === 'false') {
+            triggerDarkMode(false);
+        }
+    } else {
+        if (mql.matches) {
+            triggerDarkMode(true, false);
+        } else {
+            triggerDarkMode(false, false);
+        }
     }
 }
 
