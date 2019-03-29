@@ -2,7 +2,7 @@ body {
     background-color: #c4c4c4;
 }
 
-#main {
+main {
     margin-left: 10%;
     margin-right: 10%;
     display: flex;

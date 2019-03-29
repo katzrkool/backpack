@@ -107,7 +107,7 @@ def totalPoints(scores: list) -> str:
 
 def divideTotal(possible: float, total: float):
     if total == 0:
-        return 'nevermind, dividing by zero isn\t possible yet.'
+        return 'nevermind, dividing by zero isn\'t possible yet.'
     else:
         return round((possible/total), 4)
 

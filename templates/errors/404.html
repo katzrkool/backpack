@@ -10,8 +10,8 @@
     <hr>
     <h2>There is no page at the URL!</h2>
     <p>That is not good.</p>
-<p>You can either go back or enjoy this hastily drawn picture of a cat that I made.</p>
-    <img src="static/assets/errorCat.svg" alt="Error cat">
+    <p>You can either <a href="{{ url_for('login') }}">go back</a> or enjoy this hastily drawn picture of a cat that I made.</p>
+    <img src="{{ url_for('static', filename='assets/errorCat.svg') }}" alt="Error cat">
 
 </main>
 </body>
