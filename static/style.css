@@ -15,7 +15,7 @@ main {
     padding-bottom: 3%;
     background-color: white;
     margin-bottom: 1%;
-    margin-right: 10px;
+    margin-right: 1%;
     width: 47%;
     position: relative;
     align-content: center;
@@ -63,9 +63,7 @@ main {
 
 .assignments {
     text-align: center;
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 2%;
+    margin: 2% auto 0;
     display: none;
 }
 
@@ -73,19 +71,13 @@ th {
     font-size: x-large;
 }
 
-@media screen and (orientation: portrait) {
+@media screen and (max-width: 900px) {
     .surround {
         width: 100%;
-        font-size: 200%;
     }
-    .progress > span {
-        height: 40px;
-    }
+
     .progress {
-        padding: 4px;
-    }
-    th {
-        font-size: larger;
+        margin: 1em;
     }
 }
 
