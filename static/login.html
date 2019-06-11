@@ -13,11 +13,14 @@
             padding: 20px;
             background-color: #FFFFFF;
         }
-        .darkmode {
-            background-color: #515151;
-        }
-        .darkmode main {
-            background-color: #d3d3d3;
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #515151;
+            }
+
+            main {
+                background-color: #d3d3d3;
+            }
         }
     </style>
 </head>
@@ -38,7 +41,6 @@
     <p>See a <a href="test">demo</a> without having to log in.</p>
 </footer>
 <script src="static/login.js"></script>
-<script src="static/darkmode.js"></script>
 </main>
 </body>
 </html>

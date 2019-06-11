@@ -17,11 +17,14 @@
             padding: 1% 2%;
             line-height: 1.5;
         }
-        .darkmode {
-            background-color: #515151;
-        }
-        .darkmode main {
-            background-color: #d3d3d3;
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #515151;
+            }
+
+            main {
+                background-color: #d3d3d3;
+            }
         }
     </style>
 </head>
@@ -66,6 +69,5 @@
     <h2>I have an idea/suggestion or I want to contribute!</h2>
     <p>Lovely! We need more people like you in this world. You can email me at <a href="mailto:lucas@lkellar.org">lucas@lkellar.org</a>, create an issue on <a href="https://github.com/katzrkool/backpack/issues">Github</a>, or <a href="https://github.com/katzrkool/backpack/pulls">submit a pull request</a>.</p>
 </main>
-<script src="../static/darkmode.js"></script>
 </body>
 </html>
