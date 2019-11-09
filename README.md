@@ -1,5 +1,6 @@
 # MyBackpack Grade Site
 A client to view grades from MyBackpack in a simplified, prettier interface.
+## This project is no longer maintained
 
 ## Installation
 
